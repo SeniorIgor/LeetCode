@@ -1,11 +1,16 @@
 // TODO: Solve again
+// N - the number of words
+// M - the number of letters
 class Trie {
+  // Space complexity: O(N * M)
   store: Store;
   
   constructor() {
     this.store = new Store();
   }
 
+  // Time complexity: O(M)
+  // Space complexity: O(M)
   insert(word: string): void {
     let node: Store = this.store;
     
@@ -20,6 +25,8 @@ class Trie {
     node.isWord = true;
   }
 
+  // Time complexity: O(M)
+  // Space complexity: O(1)
   traverse(word: string) {
     let node = this.store;
 
@@ -34,12 +41,16 @@ class Trie {
     return node;
   }
 
+  // Time complexity: O(M)
+  // Space complexity: O(1)
   search(word: string): boolean {
     const result = this.traverse(word);
 
     return !!result && !!result.isWord;
   }
 
+  // Time complexity: O(M)
+  // Space complexity: O(1)
   startsWith(prefix: string): boolean {
     return !!(this.traverse(prefix));
   }
