@@ -1,4 +1,4 @@
-function reverse(nums: number[], start: number, end: number) {
+export function reverse(nums: number[], start: number, end: number) {
   while(start < end) {
     const elem = nums[start];
     nums[start] = nums[end];
