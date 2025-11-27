@@ -1,5 +1,5 @@
 // TODO: Solve again
-function majorityElement(nums: number[]): number {
+export function majorityElement(nums: number[]): number {
   let value = nums[0];
   let count = 1;
 
