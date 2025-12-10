@@ -1,17 +1,19 @@
-function jump(nums: number[]): number {
+export function jump(nums: number[]): number {
   let count = 0;
-  let max = 0;
-  let preIndex = 0;
+  let index = 0;
+  let nextIndex = nums[0];
 
-  for (let i = 0; i < nums.length; i++) {
-    const element = nums[i];
-    
-    if(i > preIndex) {
-      count++;
-      preIndex = max;
+  for(let i = 0; i < nums.length; i++) {
+    if(index >= nums.length - 1) {
+      return count;
+    } else if(nums[i] + i > nextIndex){
+      nextIndex = nums[i] + i;
     }
 
-    max = Math.max(i + element, max);
+    if(index === i) {
+      count++;
+      index = nextIndex;
+    }
   }
 
   return count;
@@ -22,3 +24,9 @@ const value = [2,3,0,1,4];
 const result = jump(value);
 
 console.log(result);
+
+// [7,0,9,6,9,6,1,7,9,0,1,2,9,0,3] => 2
+// [1,1,1,1] => 3
+// [0] => 0
+// [2,3,1,1,4] => 2
+// [2,3,0,1,4] => 2
