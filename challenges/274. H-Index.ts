@@ -1,4 +1,4 @@
-function hIndex(citations: number[]): number {
+export function hIndex(citations: number[]): number {
   const numbers = new Array(citations.length + 1).fill(0);
 
   for (let i = 0; i < citations.length; i++) {
