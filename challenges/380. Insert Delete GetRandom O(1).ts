@@ -1,4 +1,4 @@
-class RandomizedSet {
+export class RandomizedSet {
   set: Set<number>;
 
   constructor() {
