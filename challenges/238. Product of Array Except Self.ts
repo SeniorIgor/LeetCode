@@ -1,22 +1,21 @@
 // TODO: Solve again
-function productExceptSelf(nums: number[]): number[] {
-  const result: Array<number> = [];
-  let current = 1; // prefix or suffix
+export function productExceptSelf(nums: number[]): number[] {
+  let multiple = 1;
+  let list: Array<number> = new Array(nums.length).fill(1);
 
-  result[0] = 1;
-
-  for (let i = 1; i < nums.length; i++) {
-    current = current * nums[i - 1];    
-    result[i] = current;
+  for (let i = 0; i < nums.length; i++) {
+    list[i] = multiple;
+    multiple *= nums[i];
   }
 
-  current = 1;
-  for (let i = nums.length - 2; i >= 0; i--) {
-    current = current * nums[i + 1];    
-    result[i] = result[i] * current;
+  multiple = 1;
+
+  for (let i = nums.length - 1; i >= 0; i--) {
+    list[i] = list[i] * multiple;
+    multiple *= nums[i]; 
   }
 
-  return result;
+  return list;
 };
 
 const value = [1,2,3,4];
