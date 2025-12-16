@@ -4,14 +4,20 @@
   "description": "",
   "main": "index.js",
   "type": "commonjs",
+  "engines": {
+    "node": "24.11.1",
+    "npm": "11.6.2"
+  },
   "scripts": {
-    "start": "npx ts-node challenges/file_name.ts"
+    "start": "npx ts-node challenges/file_name.ts",
+    "test": "npx vitest challenges/file_name.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "24.10.1",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "^4.0.15"
   }
 }
