@@ -1,23 +1,44 @@
-function longestCommonPrefix(strs: string[]): string {
-  if(strs.length < 1) {
-    return "";
+export function longestCommonPrefix(strs: string[]): string {
+  if(strs.length < 2) {
+    return strs[0] || "";
   }
   
-  let word = strs[0];
+  let prefix = strs[0];
+  
+  for(let index = 1; index < strs.length; index++) {
+    const word = strs[index];
 
-  for (let i = 1; i < strs.length; i++) {
-    while (strs[i].indexOf(word) !== 0) {
-      word = word.slice(0, word.length - 1);
-
-      if(word === "") {
-        return ""
-      }
+    while (!word.startsWith(prefix)) {
+      prefix = prefix.slice(0, prefix.length - 1);
     }
   }
 
-  return word;
+  return prefix;
 };
 
 const value = ["flower","flow","flight"];
 const result = longestCommonPrefix(value);
 console.log(result);
+
+// Solution #1
+// export function longestCommonPrefix(strs: string[]): string {
+//   if(strs.length < 2) {
+//     return strs[0] || "";
+//   }
+  
+//   const firstWord = strs[0];
+  
+//   for(let i = 0; i < firstWord.length; i++) {
+//     const letter = firstWord[i]
+
+//     for(let j = 1; j < strs.length; j++) {
+//       const word = strs[j];
+
+//       if(word.length - 1 < i || letter !== word[i]) {
+//         return word.slice(0, i);
+//       }
+//     }
+//   }
+
+//   return firstWord;
+// };
