@@ -1,35 +1,49 @@
-function strStr(haystack: string, needle: string): number {
-  if(needle.length > haystack.length) {
-    return -1;
-  }
-  
-  let index = -1;
-
-  for (let i = 0; i < haystack.length; i++) {
-    if(haystack[i] === needle[0]) {
-      let pointer = 0;
-      
-      while(pointer !== needle.length) {
-        if(haystack[i + pointer] === needle[pointer]) {
-          pointer++;
-        } else {
-          index = -1;
-          break;
-        }
-      }
-
-      if(pointer === needle.length) {
-        return i;
+export function strStr(haystack: string, needle: string): number {
+  for(let i = 0; i < haystack.length; i++) {
+    let j = 0
+    
+    for(; j < needle.length; j++) {
+      if(haystack[i + j] !== needle[j]) {
+        break;
       }
     }
+
+    if(j === needle.length) {
+      return i;
+    }
   }
-  
-  return index;
+
+  return -1;
 };
 
-const value = "mississippi";
+// Test Case #1
+const haystack = "mississippi";
 const needle = "issip";
-const result = strStr(value, needle);
+
+// Test Case #2
+// const haystack = "abc";
+// const needle = "c";
+const result = strStr(haystack, needle);
 console.log(result);
 
+// Solution #1 
+// export function strStr(haystack: string, needle: string): number {
+//   return haystack.indexOf(needle);
+// };
 
+// Solution #2
+// export function strStr(haystack: string, needle: string): number {
+//   if(haystack.length === needle.length) {
+//     return haystack === needle ? 0 : -1;
+//   }
+  
+//   for(let i = 0; i <= haystack.length - needle.length; i++) {
+//     const word = haystack.slice(i, i + needle.length);
+
+//     if(word === needle) {
+//       return i;
+//     }
+//   }
+
+//   return -1;
+// };
