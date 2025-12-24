@@ -1,59 +1,67 @@
-function fullJustify(words: string[], maxWidth: number): string[] {
-  const result: Array<string> = [];
-  let wordList: Array<string> = [];
-  let sentenceLength = 0;
-  
-  for (let i = 0; i < words.length; i++) {
-    const spacesLength = wordList.length;
-    const currentWord = words[i];
+export function fullJustify(words: string[], maxWidth: number): string[] {
+  const lines: Array<string> = [];
+  let numberOfWords = 0;
+  let numberOfLetters = 0;
 
-    if(sentenceLength + spacesLength + currentWord.length > maxWidth) {
-      result.push(justify(wordList, spacesLength > 1 ? 'full' : 'left', sentenceLength, maxWidth));
-      wordList = [currentWord];
-      sentenceLength = 0;
+  for(let i = 0; i < words.length; i++) {
+    const wordLength = words[i].length;
+
+    if(maxWidth >= numberOfLetters + wordLength + numberOfWords) {
+      numberOfWords++;
+      numberOfLetters += wordLength;
     } else {
-      wordList.push(currentWord);
+      lines.push(createLine(words, maxWidth, numberOfWords, numberOfLetters, i));
+      
+      numberOfLetters = wordLength;
+      numberOfWords = 1;
     }
-
-    sentenceLength += currentWord.length;
   }
 
-  result.push(justify(wordList, 'left', sentenceLength, maxWidth));
+  lines.push(createLine(words, maxWidth, numberOfWords, numberOfLetters, words.length));
 
-  return result;
+  return lines;
 };
 
-function justify(wordList: Array<string>, mode: 'left' | 'full', length: number, maxWidth: number): string {
-  let result = '';
-  const spacesBetweenWords = wordList.length - 1;
-  const allSpaces = maxWidth - length;
-  
-  switch (mode) {
-    case 'left': {
-      result = wordList.join(' ') + " ".repeat(allSpaces - spacesBetweenWords);
-      break;
-    }
-  
-    case 'full':
-      const averageSpace = Math.floor(allSpaces / spacesBetweenWords);
-      const excessSpace = allSpaces - averageSpace * spacesBetweenWords;
+function createLine(words: Array<string>, maxWidth: number, numberOfWords: number, 
+    numberOfLetters: number, lastWordNumber: number): string {  
+  let numberOfSpaces = 1                
+  let additionalSpaces = 0;
+  let line = "";
       
-      for (let i = 0; i < excessSpace; i++) {
-        wordList[i] += ' '; 
-      }
-
-      const separator = ' '.repeat(averageSpace); 
-
-      result = wordList.join(separator);
-
-      break;
+  if(lastWordNumber !== words.length) {
+    const availableSpace = maxWidth - numberOfLetters;
+    numberOfSpaces = Math.trunc(availableSpace / (numberOfWords - 1));     
+    additionalSpaces = availableSpace % (numberOfWords - 1);
   }
-  
-  return result;
+
+  for (let i = lastWordNumber - numberOfWords; i < lastWordNumber; i++) {
+    const word = words[i];
+
+    if(!line.length) {
+      line += word;
+    } else {
+      line += " ".repeat(numberOfSpaces) + (additionalSpaces > 0 ? ' ' : '') + word; 
+      additionalSpaces--;
+    }
+  }
+
+  if(line.length < maxWidth) {
+    line += " ".repeat(maxWidth - line.length);
+  }
+
+  return line;
 }
 
-const value = ["This", "is", "an", "example", "of", "text", "justification."];
-const maxWidth = 16;
+// Test Case #1
+// const value = ["This", "is", "an", "example", "of", "text", "justification."];
+// const maxWidth = 16;
+// Test Case #2
+// const value = ["What","must","be","acknowledgment","shall","be"];
+// const maxWidth = 16;
+// Test Case #3
+const value = ["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"];
+const maxWidth = 20;
+
 const result = fullJustify(value, maxWidth);
 console.log(result, result.map(item => item.length));
 
