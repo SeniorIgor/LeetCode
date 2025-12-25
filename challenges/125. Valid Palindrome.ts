@@ -1,13 +1,12 @@
-function isPalindrome(s: string): boolean {
-  const regexp = /[^a-zA-Z0-9]/g;
-  
-  const palindrome = s.replace(regexp, '').toLocaleLowerCase();
+export function isPalindrome(s: string): boolean {
+  const regexp = /[^a-z0-9]/g;
 
-  let start = 0;
-  let end = palindrome.length - 1;
+  const word = s.toLowerCase().replace(regexp, "");
+  let startIndex = 0;
+  let finalIndex = word.length - 1;
 
-  while (start < end) {
-    if(palindrome[start++] !== palindrome[end--]) {
+  while(startIndex < finalIndex) {
+    if(word[startIndex++] !== word[finalIndex--]) {
       return false;
     }
   }
@@ -15,6 +14,37 @@ function isPalindrome(s: string): boolean {
   return true;
 };
 
-const value = " ";
+const value = "race a car";
 const result = isPalindrome(value);
 console.log(result);
+
+// Solution #1
+// export function isPalindrome(s: string): boolean {
+//   const regexp = /[a-z0-9]/g;
+
+//   const words = s.toLowerCase().match(regexp) || [];
+
+//   return words.join("") === words.reverse().join("");
+// };
+
+// Solution #2
+// export function isPalindrome(s: string): boolean {
+//   const regexp = /[^a-z0-9]/g;
+
+//   const word = s.toLowerCase().replace(regexp, "");
+//   const letters = word.split('');
+//   let startIndex = 0;
+//   let finalIndex = letters.length - 1;
+
+//   while(startIndex < finalIndex) {
+//     const letter = letters[finalIndex];
+    
+//     letters[finalIndex] = letters[startIndex];
+//     letters[startIndex] = letter;
+
+//     startIndex++;
+//     finalIndex--;
+//   }
+
+//   return word === letters.join("");
+// };
