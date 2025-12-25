@@ -1,13 +1,20 @@
 export function isPalindrome(s: string): boolean {
-  const regexp = /[^a-z0-9]/g;
+  const regexp = /[a-z0-9]/i;
 
-  const word = s.toLowerCase().replace(regexp, "");
   let startIndex = 0;
-  let finalIndex = word.length - 1;
+  let lastIndex = s.length - 1;
+  s = s.toLowerCase();
 
-  while(startIndex < finalIndex) {
-    if(word[startIndex++] !== word[finalIndex--]) {
+  while(startIndex < lastIndex) {
+    if(!regexp.test(s[startIndex])) {
+      startIndex++;
+    } else if(!regexp.test(s[lastIndex])) {
+      lastIndex--;
+    } else if(s[startIndex] !== s[lastIndex]) {
       return false;
+    } else {
+      startIndex++;
+      lastIndex--;
     }
   }
 
