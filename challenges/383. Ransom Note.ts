@@ -1,20 +1,18 @@
-function canConstruct(ransomNote: string, magazine: string): boolean {
-  const map = new Map();
+export function canConstruct(ransomNote: string, magazine: string): boolean {
+  const counts = new Array(26).fill(0);
 
-  for (let i = 0; i < magazine.length; i++) {
-    const element = magazine[i];
-    map.set(element, (map.get(element) || 0) + 1);
+  for (const letter of magazine) {
+    counts[letter.charCodeAt(0) - 97]++;
   }
 
-  for (let i = 0; i < ransomNote.length; i++) {
-    const element = ransomNote[i];
-    const value = map.get(element);
+  for (const letter of ransomNote) {
+    const index = letter.charCodeAt(0) - 97;
 
-    if(!value) {
+    if (counts[index] === 0) {
       return false;
-    } else {
-      map.set(element, value - 1);
     }
+
+    counts[index]--;
   }
 
   return true;
@@ -24,3 +22,24 @@ const value = "aa";
 const magazine = "aab";
 const result = canConstruct(value, magazine);
 console.log(result);
+
+// Another Solution
+// export function canConstruct(ransomNote: string, magazine: string): boolean {
+//   const map = new Map();
+
+//   for (const letter of magazine) {
+//     map.set(letter, (map.get(letter) || 0) + 1);
+//   }
+
+//   for (const letter of ransomNote) {
+//     const value = map.get(letter);
+
+//     if (!value || value <= 0) {
+//       return false;
+//     }
+
+//     map.set(letter, value - 1);
+//   }
+
+//   return true;
+// };
