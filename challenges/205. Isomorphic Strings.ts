@@ -1,18 +1,19 @@
-function isIsomorphic(s: string, t: string): boolean {
-  const sMap = new Map();
-  const tMap = new Map();
+export function isIsomorphic(s: string, t: string): boolean {
+  const sMap = new Map<string, string>();
+  const tMap = new Map<string, string>();
 
   for (let i = 0; i < s.length; i++) {
-    const sValue = sMap.get(s[i]);
-    const tValue = tMap.get(t[i]);
-    
-    if(sValue !== undefined || tValue !== undefined) {
-      if(sValue !== t[i] || tValue !== s[i]) {
-        return false;
-      }
-    } else {
-      sMap.set(s[i], t[i]);
-      tMap.set(t[i], s[i]);
+    const sLetter = s[i];
+    const tLetter = t[i];
+
+    const tValue = sMap.get(sLetter);
+    const sValue = tMap.get(tLetter);
+
+    if (tValue === undefined && sValue === undefined) {
+      sMap.set(sLetter, tLetter);
+      tMap.set(tLetter, sLetter);
+    } else if (sLetter !== sValue || tLetter !== tValue) {
+      return false;
     }
   }
 
