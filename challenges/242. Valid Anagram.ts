@@ -1,29 +1,33 @@
-function isAnagram(s: string, t: string): boolean {
-  if(s.length !== t.length) {
+export function isAnagram(s: string, t: string): boolean {
+  if (s.length !== t.length) {
     return false;
   }
-  
-  const map = new Map();
 
-  for (let i = 0; i < s.length; i++) {
-    const value = map.get(s[i]) || 0;
-    map.set(s[i], value + 1);
+  const count = new Array<number>(26).fill(0);
+
+  for (let letter of s) {
+    const idx = letter.charCodeAt(0) - 97;
+    count[idx] = count[idx] + 1;
   }
-  
-  for (let i = 0; i < t.length; i++) {
-    const value = map.get(t[i]);
 
-    if(!value) {
+  for (let letter of t) {
+    const idx = letter.charCodeAt(0) - 97;
+
+    if (count[idx] === 0) {
       return false;
     } else {
-      map.set(t[i], value - 1);
+      count[idx] = count[idx] - 1;
     }
   }
 
   return true;
 };
 
-const value = "rat";
-const magazine = "car";
+// Test Case #1
+// const value = "rat";
+// const magazine = "car";
+// Test Case #2
+const value = "anagram";
+const magazine = "nagaram";
 const result = isAnagram(value, magazine);
 console.log(result);
