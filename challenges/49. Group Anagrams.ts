@@ -1,20 +1,45 @@
-function groupAnagrams(strs: string[]): string[][] {
-  const map = new Map();
+export function groupAnagrams(strs: string[]): string[][] {
+  const groups = new Map<string, string[]>();
 
-  for (let i = 0; i < strs.length; i++) {
-    const sorted = strs[i].split('').sort().join('');
-    const value = map.get(sorted);
-    
-    if(!value) {
-      map.set(sorted, [strs[i]]);
+  for (const word of strs) {
+    const count = new Array(26).fill(0);
+
+    for (let i = 0; i < word.length; i++) {
+      count[word.charCodeAt(i) - 97]++;
+    }
+
+    const key = count.join("#");
+    const bucket = groups.get(key);
+
+    if (bucket) {
+      bucket.push(word);
     } else {
-      value.push(strs[i]);
+      groups.set(key, [word]);
     }
   }
 
-  return Array.from(map.values());
+  return [...groups.values()];
 };
 
-const value = ["eat","tea","tan","ate","nat","bat"];
+const value = ["eat", "tea", "tan", "ate", "nat", "bat"];
 const result = groupAnagrams(value);
 console.log(result);
+
+// Another Solution
+// export function groupAnagrams(strs: string[]): string[][] {
+//   const storage = new Map<string, string[]>();
+
+//   for (const word of strs) {
+//     const sortedWord = word.split('').sort().join("");
+
+//     const words = storage.get(sortedWord);
+
+//     if (words !== undefined) {
+//       words.push(word);
+//     } else {
+//       storage.set(sortedWord, [word]);
+//     }
+//   }
+
+//   return Array.from(storage.values());
+// };
