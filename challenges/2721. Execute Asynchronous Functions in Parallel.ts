@@ -46,4 +46,3 @@ const input = [
   () => new Promise(resolve => setTimeout(() => resolve(16), 100))
 ];
 promiseAll(input).then(console.log).catch(console.log);
-// Test Case #1
