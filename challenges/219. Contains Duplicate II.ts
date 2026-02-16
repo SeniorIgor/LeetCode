@@ -1,20 +1,29 @@
-function containsNearbyDuplicate(nums: number[], k: number): boolean {
-  const map = new Map();
+export function containsNearbyDuplicate(nums: number[], k: number): boolean {
+  const window = new Set<number>();
 
   for (let i = 0; i < nums.length; i++) {
-    const prevIndex = map.get(nums[i]);
+    const outgoingIndex = i - k - 1;
 
-    if(prevIndex !== undefined && i - prevIndex <= k) {
+    if (outgoingIndex >= 0) {
+      window.delete(nums[outgoingIndex]);
+    }
+
+    if (window.has(nums[i])) {
       return true;
     }
-    
-    map.set(nums[i], i);
+
+    window.add(nums[i]);
   }
 
   return false;
 };
 
-const value = [1,2,3,1,2,3];
+// Test Case #1 -> false
+// const value = [1, 2, 3, 1, 2, 3];
+// const k = 2;
+
+// Test Case #2 -> true
+const value = [1, 2, 3, 1, 2, 3];
 const k = 3;
 const result = containsNearbyDuplicate(value, k);
 console.log(result);
