@@ -1,27 +1,30 @@
 // TODO: Solve again
-function longestConsecutive(nums: number[]): number {
-  const set = new Set(nums);
-  let result = 0;
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+export function longestConsecutive(nums: number[]): number {
+  const values = new Set<number>(nums);
+  let best = 0;
 
-  for (let i = 0; i < nums.length; i++) {
-    const element = nums[i];
-
-    if(set.has(element + 1)) {
+  for (const num of values) {
+    if (values.has(num - 1)) {
       continue;
     }
 
-    let count = 0;
-      
-    while(set.has(element - count)) {
-      count++;
+    let length = 1;
+
+    while (values.has(num + length)) {
+      length++;
     }
 
-    result = Math.max(result, count);
+    if (length > best) {
+      best = length;
+    }
   }
 
-  return result;
+  return best;
 };
 
-const value = [0,3,7,2,5,8,4,6,0,1];
+// Test Case #1
+const value = [0, 3, 7, 2, 5, 8, 4, 6, 0, 1];
 const result = longestConsecutive(value);
 console.log(result);
