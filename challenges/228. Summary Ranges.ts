@@ -1,32 +1,24 @@
-function summaryRanges(nums: number[]): string[] {
-  if(!nums.length) {
-    return [];
-  }
-  
+export function summaryRanges(nums: number[]): string[] {
   const result: Array<string> = [];
-  let start = 0;
 
-  for (let i = 1; i < nums.length; i++) {
-    if(nums[i] - nums[i - 1] !== 1) {
-      if(start !== i - 1) {
-        result.push(`${nums[start]}->${nums[i - 1]}`);
-      } else {
-        result.push(`${nums[start]}`);
-      }
+  for (let i = 0; i < nums.length; i++) {
+    const start = nums[i];
 
-      start = i;
+    while (i + 1 < nums.length && nums[i] + 1 === nums[i + 1]) {
+      i++;
     }
-  }
 
-  if(start !== nums.length - 1) {
-    result.push(`${nums[start]}->${nums[nums.length - 1]}`);
-  } else {
-    result.push(`${nums[start]}`);
+    if (start === nums[i]) {
+      result.push(String(start));
+    } else {
+      result.push(`${start}->${nums[i]}`);
+    }
   }
 
   return result;
 };
 
-const value = [0,2,3,4,6,8,9];
+// Test Case #1 -> [ '0', '2->4', '6', '8->9' ]
+const value = [0, 2, 3, 4, 6, 8, 9];
 const result = summaryRanges(value);
 console.log(result);
