@@ -1,33 +1,44 @@
-function insert(intervals: number[][], newInterval: number[]): number[][] {
-  const result: Array<Array<number>> = [];
-  let i = 0;
+// TODO: Solve again
+export function insert(intervals: number[][], newInterval: number[]): number[][] {
+  let result: number[][] = [];
+  let index = 0;
+  let [start, end] = newInterval;
 
-  while (i < intervals.length && intervals[i][1] < newInterval[0]) {
-    result.push(intervals[i]);
-    i++;
+  // Add all intervals completely before [start, end]
+  while (index < intervals.length && intervals[index][1] < start) {
+    result.push(intervals[index]);
+    index++;
   }
 
-  while (i < intervals.length && newInterval[1] >= intervals[i][0]) {
-    newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
-    newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
-    i++;
+  // Merge all overlapping intervals into [start, end]
+  while (index < intervals.length && intervals[index][0] <= end) {
+    start = Math.min(start, intervals[index][0]);
+    end = Math.max(end, intervals[index][1]);
+    index++;
   }
 
-  result.push(newInterval);
+  result.push([start, end]);
 
-  while (i < intervals.length) {
-    result.push(intervals[i]);
-    i++;
+  // Add the rest
+  while (index < intervals.length) {
+    result.push(intervals[index]);
+    index++;
   }
 
   return result;
 };
 
-const value = [[1,2],[3,5],[6,7],[8,10],[12,16]];
-const newInterval = [4,8];
+// Test Case 1 -> [ [ 1, 2 ], [ 4, 10 ], [ 12, 16 ] ]
+// const value = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]];
+// const newInterval = [4, 8];
+// Test Case 2  -> [ [ 1, 5 ], [ 6, 9 ] ]
+// const value = [[1, 3], [6, 9]];
+// const newInterval = [2, 5];
+// Test Case 3 -> [ [ 2, 5 ] ]
+// const value = [];
+// const newInterval = [2, 5];
+// Test Case 4 -> [ [ 0, 0 ], [ 1, 5 ] ]
+const value = [[1, 5]];
+const newInterval = [0, 0];
 const result = insert(value, newInterval);
 console.log(result);
-
-// [[1,2],[3,5],[6,7],[8,10],[12,16]]
-// [4,8]
-
