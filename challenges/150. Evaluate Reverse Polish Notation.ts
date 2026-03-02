@@ -1,34 +1,62 @@
-function evalRPN(tokens: string[]): number {
-  const stack: Array<number> = [];
-  
-  for (let i = 0; i < tokens.length; i++) {
-    const item = tokens[i];
+export function evalRPN(tokens: string[]): number {
+  const stack: number[] = [];
 
-    if(item === '+') {
-      const second = stack.pop() || 0;
-      const first = stack.pop() || 0;
-      stack.push(first + second);
-    } else if(item === '*') {
-      const second = stack.pop() || 0;
-      const first = stack.pop() || 0;
-      stack.push(first * second);
-    } else if(item === '/') {
-      const second = stack.pop() || 0;
-      const first = stack.pop() || 0;
-      stack.push(Math.trunc(first / second));
-    } else if(item === '-') {
-      const second = stack.pop() || 0;
-      const first = stack.pop() || 0;
-      stack.push(first - second);
-    } else {
-      stack.push(+item);
+  for (let token of tokens) {
+    if (!isNaN(+token)) {
+      stack.push(+token);
+      continue;
+    }
+
+    const right = stack.pop()!;
+    const left = stack.pop()!;
+
+    if (token === '+') {
+      stack.push(left + right);
+    } else if (token === '*') {
+      stack.push(left * right);
+    } else if (token === '/') {
+      stack.push(Math.trunc(left / right));
+    } else if (token === '-') {
+      stack.push(left - right);
     }
   }
 
-  return stack.pop() || 0;
-};
+  return stack.pop()!;
+}
 
-const value = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"];
+const value = ["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"];
 const result = evalRPN(value);
 console.log(result);
 
+// Another Solution
+// export function evalRPN(tokens: string[]): number {
+//   const stack: number[] = [];
+//   const ops = new Set(["+", "-", "*", "/"]);
+
+//   for (const token of tokens) {
+//     if (!ops.has(token)) {
+//       stack.push(Number(token));
+//       continue;
+//     }
+
+//     const right = stack.pop()!;
+//     const left = stack.pop()!;
+
+//     switch (token) {
+//       case "+":
+//         stack.push(left + right);
+//         break;
+//       case "-":
+//         stack.push(left - right);
+//         break;
+//       case "*":
+//         stack.push(left * right);
+//         break;
+//       case "/":
+//         stack.push(Math.trunc(left / right));
+//         break;
+//     }
+//   }
+
+//   return stack.pop()!;
+// }
