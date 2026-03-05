@@ -1,27 +1,26 @@
 class ListNode {
-    val: number
-    next: ListNode | null
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val===undefined ? 0 : val)
-        this.next = (next===undefined ? null : next)
-    }
+  val: number
+  next: ListNode | null
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = (val === undefined ? 0 : val)
+    this.next = (next === undefined ? null : next)
+  }
 }
 
-function hasCycle(head: ListNode | null): boolean {
-  let slow = head;
-  let fast = head;
-
-  while(slow !== null && fast !== null) {
-    slow = slow?.next || null;
-    fast = fast?.next || null;
-    fast = fast?.next || null;
-
-    if(slow && fast && slow === fast) {
-      return true;
-    }
+export function hasCycle(head: ListNode | null): boolean {
+  if (head === null || head.next === null) {
+    return false;
   }
 
-  return false;
+  let slow: ListNode | null = head;
+  let fast: ListNode | null = head;
+
+  while (slow?.next && fast?.next?.next && slow !== fast) {
+    slow = slow.next;
+    fast = fast.next.next
+  }
+
+  return slow === fast;
 };
 
 const first = new ListNode(3);
@@ -31,6 +30,24 @@ const third = new ListNode(0);
 second.next = third;
 const fourth = new ListNode(-4);
 third.next = fourth;
+fourth.next = second;
 
 const result = hasCycle(first);
 console.log(result);
+
+// Another Solution
+// export function hasCycle(head: ListNode | null): boolean {
+//   let slow = head;
+//   let fast = head;
+
+//   while (fast !== null && fast.next !== null) {
+//     slow = slow!.next;
+//     fast = fast.next.next
+
+//     if (slow === fast) {
+//       return true;
+//     }
+//   }
+
+//   return false;
+// };
